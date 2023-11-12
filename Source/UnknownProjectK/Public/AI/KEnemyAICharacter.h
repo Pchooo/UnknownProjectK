@@ -16,8 +16,8 @@ class UNKNOWNPROJECTK_API AKEnemyAICharacter : public ACharacter
 public:
 
 	AKEnemyAICharacter();
-
-protected:
+	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite,Category= "AI")
 	UBehaviorTree* BehaviorTreeAsset; 
+	
 };

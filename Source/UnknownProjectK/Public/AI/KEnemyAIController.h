@@ -13,5 +13,8 @@ UCLASS()
 class UNKNOWNPROJECTK_API AKEnemyAIController : public AAIController
 {
 	GENERATED_BODY()
+
+protected:
+	virtual void OnPossess(APawn *InPawn) override;
 	
 };
