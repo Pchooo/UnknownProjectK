@@ -73,6 +73,13 @@ void AUnknownProjectKCharacter::SetupPlayerInputComponent(class UInputComponent*
 }
 
 
+void AUnknownProjectKCharacter::OnStartJump()
+{
+	if(IsProne) return;
+	ACharacter::Jump();
+}
+
+
 void AUnknownProjectKCharacter::Move(const FInputActionValue& Value)
 {
 	// input is a Vector2D

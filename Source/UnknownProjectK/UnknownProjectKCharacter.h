@@ -70,6 +70,9 @@ protected:
 
 	/** Called for looking input */
 	void Look(const FInputActionValue& Value);
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Movement");
+	bool IsProne = false;
 
 protected:
 	// APawn interface
@@ -82,6 +85,9 @@ public:
 	/** Returns FirstPersonCameraComponent subobject **/
 	UCameraComponent* GetFirstPersonCameraComponent() const { return FirstPersonCameraComponent; }
 
+private:
+	
+	void OnStartJump();
 
 };
 
