@@ -8,11 +8,13 @@ public class UnknownProjectK : ModuleRules
 	{
 		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
 
-		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "HeadMountedDisplay", "EnhancedInput" });
+		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "HeadMountedDisplay", "EnhancedInput", "GameplayTasks" });
 		
 		PublicIncludePaths.AddRange(new []
 		{
-			"UnknownProjectK/Public/AI/"
+			"UnknownProjectK/Public/AI/",
+			"UnknownProjectK/Public/Components",
+			"UnknownProjectK/Public/AI/Services"
 		});
 	}
 }
