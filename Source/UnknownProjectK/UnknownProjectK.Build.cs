@@ -14,7 +14,8 @@ public class UnknownProjectK : ModuleRules
 		{
 			"UnknownProjectK/Public/AI/",
 			"UnknownProjectK/Public/Components",
-			"UnknownProjectK/Public/AI/Services"
+			"UnknownProjectK/Public/AI/Services",
+			"UnknownProjectK/Public/AI/EQS"
 		});
 	}
 }

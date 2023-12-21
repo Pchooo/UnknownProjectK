@@ -25,8 +25,8 @@ void AKEnemyAIController::OnPossess(APawn *InPawn) {
 void AKEnemyAIController::Tick(float DeltaSeconds) {
   Super::Tick(DeltaSeconds);
 
-  //const auto ActorFocus = GetFocusOnActor();
-  const auto ActorFocus = KPerceptionComponent->GetVisibleCharacter(); 
+  const auto ActorFocus = GetFocusOnActor();
+ // const auto ActorFocus = KPerceptionComponent->GetVisibleCharacter(); 
   int tmp = ActorFocus?1:0;
   UE_LOG(LogAIController, Warning, TEXT("AI %i"),tmp );
   SetFocus(ActorFocus);
