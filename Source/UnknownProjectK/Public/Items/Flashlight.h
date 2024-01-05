@@ -9,16 +9,19 @@
 /**
  * 
  */
+class USpotLightComponent; 
 UCLASS()
 class UNKNOWNPROJECTK_API AFlashlight : public ABaseItem
 {
 	GENERATED_BODY()
 public:
+    AFlashlight();
     virtual void DoAction() override;
     virtual void Drop() override;
 
 protected:
-  
+    UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category="Component")
+    USpotLightComponent* SpotLightComponent;
 private:
     bool IsLightOn = false;
 };

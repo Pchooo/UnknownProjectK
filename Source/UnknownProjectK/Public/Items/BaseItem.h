@@ -6,8 +6,9 @@
 #include "GameFramework/Actor.h"
 #include "BaseItem.generated.h"
 
+class USphereComponent;
+class UStaticMeshComponent;
 
-class USkeletalMeshComponent;
 UCLASS()
 class UNKNOWNPROJECTK_API ABaseItem : public AActor
 {
@@ -23,7 +24,9 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Component")
-	USkeletalMeshComponent* ItemMesh; 
-	
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category="Component")
+	UStaticMeshComponent* ItemMesh;
+
+	UPROPERTY(VisibleAnywhere, Category="Component")
+	USphereComponent* CollisionComponent; 
 };

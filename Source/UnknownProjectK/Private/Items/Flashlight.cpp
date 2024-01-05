@@ -3,6 +3,13 @@
 
 #include "Items/Flashlight.h"
 
+#include "Components/SpotLightComponent.h"
+
+AFlashlight::AFlashlight()
+{
+   SpotLightComponent = CreateDefaultSubobject<USpotLightComponent>("SpotLightComponent");
+   SpotLightComponent->SetupAttachment(GetRootComponent());
+}
 void AFlashlight::DoAction() {
    //TODO: ON or OFF
    if(IsLightOn)

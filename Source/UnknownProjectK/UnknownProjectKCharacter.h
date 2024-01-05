@@ -13,6 +13,7 @@ class USceneComponent;
 class UCameraComponent;
 class UAnimMontage;
 class USoundBase;
+class UKInventoryComponent;
 
 UCLASS(config=Game)
 class AUnknownProjectKCharacter : public ACharacter
@@ -22,7 +23,7 @@ class AUnknownProjectKCharacter : public ACharacter
 	/** Pawn mesh: 1st person view (arms; seen only by self) */
 	UPROPERTY(VisibleDefaultsOnly, Category=Mesh)
 	USkeletalMeshComponent* Mesh1P;
-
+	
 	/** First person camera */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	UCameraComponent* FirstPersonCameraComponent;
@@ -45,6 +46,9 @@ public:
 
 protected:
 	virtual void BeginPlay();
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Inventory")
+	UKInventoryComponent* InventoryComponent;
 
 public:
 		

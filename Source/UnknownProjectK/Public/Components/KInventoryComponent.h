@@ -27,12 +27,14 @@ protected:
 	//TODO: ENDPLAY
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category="Item", meta=(ClampMin = 1, ClampMax = 10))
 	int32 MaxNumberItems = 6;
-private:
+
 	UPROPERTY()
-	ABaseItem* CurrentItem;
+	ABaseItem* CurrentItem = nullptr;
 
 	UPROPERTY()
 	TArray<ABaseItem*> Items;
+private:
+	
 
 	//TODO: SPAWN
 	

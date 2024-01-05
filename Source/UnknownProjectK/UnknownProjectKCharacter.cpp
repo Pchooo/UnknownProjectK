@@ -1,13 +1,13 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
 #include "UnknownProjectKCharacter.h"
-#include "UnknownProjectKProjectile.h"
 #include "Animation/AnimInstance.h"
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
+#include "Components/KInventoryComponent.h"
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
-
+#include "UnknownProjectKProjectile.h"
 
 //////////////////////////////////////////////////////////////////////////
 // AUnknownProjectKCharacter
@@ -26,6 +26,9 @@ AUnknownProjectKCharacter::AUnknownProjectKCharacter()
 	FirstPersonCameraComponent->SetRelativeLocation(FVector(-10.f, 0.f, 60.f)); // Position the camera
 	FirstPersonCameraComponent->bUsePawnControlRotation = true;
 
+	//Inventory component
+	InventoryComponent = CreateDefaultSubobject<UKInventoryComponent>("InventoryComponent");
+	
 	// Create a mesh component that will be used when being viewed from a '1st person' view (when controlling this pawn)
 	Mesh1P = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("CharacterMesh1P"));
 	Mesh1P->SetOnlyOwnerSee(true);
