@@ -20,6 +20,7 @@ public:
 	void PreviousItem() const;
 	void DoAction() const;
 	void Drop();
+	void AddItem(ABaseItem* Item);
 	
 protected:
 	// Called when the game starts

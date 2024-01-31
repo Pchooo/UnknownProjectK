@@ -19,6 +19,7 @@ public:
 	ABaseItem();
 	virtual void DoAction();
 	virtual void Drop();
+	//virtual void PickUpItem();
 	
 protected:
 	// Called when the game starts or when spawned
@@ -28,5 +29,12 @@ protected:
 	UStaticMeshComponent* ItemMesh;
 
 	UPROPERTY(VisibleAnywhere, Category="Component")
-	USphereComponent* CollisionComponent; 
+	USphereComponent* CollisionComponent;
+
+	UFUNCTION()
+	void OnSphereBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult &SweepResult);
+
+
+private:
+	bool IsInInventory = false; 
 };

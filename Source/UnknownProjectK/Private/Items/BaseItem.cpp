@@ -5,6 +5,8 @@
 #include "Components/SphereComponent.h"
 #include "Components/StaticMeshComponent.h"
 
+DECLARE_LOG_CATEGORY_CLASS(BaseItemLog, All, All)
+
 // Sets default values
 ABaseItem::ABaseItem() {
 	PrimaryActorTick.bCanEverTick = false;
@@ -13,15 +15,24 @@ ABaseItem::ABaseItem() {
 	ItemMesh = CreateDefaultSubobject<UStaticMeshComponent>("MeshComponent");
 	ItemMesh->SetupAttachment(GetRootComponent());
 }
+
 void ABaseItem::DoAction() {}
 void ABaseItem::Drop() {}
 
 // Called when the game starts or when spawned
 void ABaseItem::BeginPlay()
 {
-	Super::BeginPlay();
-	
+        Super::BeginPlay();
+        CollisionComponent->OnComponentBeginOverlap.AddDynamic(this, &ABaseItem::OnSphereBeginOverlap);
 }
 
 
+void ABaseItem::OnSphereBeginOverlap(UPrimitiveComponent *OverlappedComponent,
+                                     AActor *OtherActor,
+                                     UPrimitiveComponent *OtherComp,
+                                     int32 OtherBodyIndex, bool bFromSweep,
+                                     const FHitResult &SweepResult)
+{
+        UE_LOG(BaseItemLog, Warning, TEXT("BaseItemOverlap"));
+}
 

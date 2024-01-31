@@ -26,7 +26,8 @@ void UKInventoryComponent::DoAction() const {
 }
 
 
-void UKInventoryComponent::Drop(){}
+void UKInventoryComponent::Drop() {}
+void UKInventoryComponent::AddItem(ABaseItem *Item) {}
 
 // Called when the game starts
 void UKInventoryComponent::BeginPlay()
