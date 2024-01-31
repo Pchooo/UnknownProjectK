@@ -1,7 +1,7 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
 #include "UnknownProjectKGameMode.h"
-#include "UnknownProjectKCharacter.h"
+#include "Player/UnknownProjectKCharacter.h"
 #include "UObject/ConstructorHelpers.h"
 
 AUnknownProjectKGameMode::AUnknownProjectKGameMode()

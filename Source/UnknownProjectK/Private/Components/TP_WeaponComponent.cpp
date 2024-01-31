@@ -2,7 +2,7 @@
 
 
 #include "TP_WeaponComponent.h"
-#include "UnknownProjectKCharacter.h"
+#include "Player/UnknownProjectKCharacter.h"
 #include "UnknownProjectKProjectile.h"
 #include "GameFramework/PlayerController.h"
 #include "Camera/PlayerCameraManager.h"
