@@ -2,6 +2,7 @@
 
 #pragma once
 
+
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "InputActionValue.h"
@@ -14,6 +15,7 @@ class UCameraComponent;
 class UAnimMontage;
 class USoundBase;
 class UKInventoryComponent;
+class ABaseItem; 
 
 UCLASS(config=Game)
 class AUnknownProjectKCharacter : public ACharacter
@@ -86,6 +88,7 @@ public:
 	/** Returns FirstPersonCameraComponent subobject **/
 	UCameraComponent* GetFirstPersonCameraComponent() const { return FirstPersonCameraComponent; }
 
+	void AddItemToInventory(ABaseItem* Item);
 
 };
 

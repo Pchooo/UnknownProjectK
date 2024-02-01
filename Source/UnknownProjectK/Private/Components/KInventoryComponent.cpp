@@ -3,6 +3,7 @@
 
 #include "Components/KInventoryComponent.h"
 #include "Items/BaseItem.h"
+#include "GameFramework/Character.h"
 // Sets default values for this component's properties
 UKInventoryComponent::UKInventoryComponent() {
   // Set this component to be initialized when the game starts, and to be ticked
@@ -19,7 +20,8 @@ void UKInventoryComponent::PreviousItem() const
 {}
 
 
-void UKInventoryComponent::DoAction() const {
+void UKInventoryComponent::DoAction() const
+{
 	if(CurrentItem) {
 		CurrentItem->DoAction();
 	}
@@ -27,15 +29,32 @@ void UKInventoryComponent::DoAction() const {
 
 
 void UKInventoryComponent::Drop() {}
-void UKInventoryComponent::AddItem(ABaseItem *Item) {}
+void UKInventoryComponent::AddItem(ABaseItem *Item)
+{
+	ACharacter* Character = Cast<ACharacter>(GetOwner());
+	if(!GetWorld() || !Character ) return;
+	//TODO: checking for the existence of the same object in the inventory
+	Item->SetOwner(Character);
+	Items.Add(Item);
+	AttachItemToSocket(Item, Character->GetMesh());
+	
+	
+}
 
 // Called when the game starts
-void UKInventoryComponent::BeginPlay()
-{
-	Super::BeginPlay();
+void UKInventoryComponent::BeginPlay() {
+        Super::BeginPlay();
 
-	// ...
-	
+        // ...
+}
+void UKInventoryComponent::SpawnItems() {}
+
+void UKInventoryComponent::AttachItemToSocket(ABaseItem *Item,
+                                              USceneComponent *SceneComponent) const
+{
+	if(!Item || !SceneComponent) return; 
+	FAttachmentTransformRules AttachmentRules(EAttachmentRule::SnapToTarget, true);
+	Item->AttachToComponent(SceneComponent, AttachmentRules, ItemEquipSocketName);
 }
 
 

@@ -26,17 +26,26 @@ protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
 	//TODO: ENDPLAY
+	
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category="Item", meta=(ClampMin = 1, ClampMax = 10))
 	int32 MaxNumberItems = 6;
 
 	UPROPERTY()
+	TArray<TSubclassOf<ABaseItem>> DefaultItems;//for default items. may be removed
+
+	UPROPERTY(EditDefaultsOnly, Category="Inventory")
+	TArray<ABaseItem*> Items;
+
+	UPROPERTY(EditDefaultsOnly, Category="Inventory")
+	FName ItemEquipSocketName = "GripPoint";
+private:
+	UPROPERTY()
 	ABaseItem* CurrentItem = nullptr;
 
-	UPROPERTY()
-	TArray<ABaseItem*> Items;
-private:
+	int32 CurrentItemIndex = 0;
 	
-
 	//TODO: SPAWN
-	
+	void SpawnItems(); //for default items. Not used for now
+
+	void AttachItemToSocket(ABaseItem* Item, USceneComponent* SceneComponent) const;
 };

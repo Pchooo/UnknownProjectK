@@ -8,9 +8,10 @@
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "UnknownProjectKProjectile.h"
+#include "BaseItem.h"
 
-//////////////////////////////////////////////////////////////////////////
-// AUnknownProjectKCharacter
+
+DEFINE_LOG_CATEGORY_STATIC(LogCharacter, All, All)
 
 AUnknownProjectKCharacter::AUnknownProjectKCharacter()
 {
@@ -58,23 +59,35 @@ void AUnknownProjectKCharacter::BeginPlay()
 
 //////////////////////////////////////////////////////////////////////////// Input
 
-void AUnknownProjectKCharacter::SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent)
-{
-	// Set up action bindings
-	if (UEnhancedInputComponent* EnhancedInputComponent = CastChecked<UEnhancedInputComponent>(PlayerInputComponent))
-	{
-		//Jumping
-		EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Triggered, this, &ACharacter::Jump);
-		EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Completed, this, &ACharacter::StopJumping);
+void AUnknownProjectKCharacter::SetupPlayerInputComponent(
+    class UInputComponent *PlayerInputComponent) {
+        // Set up action bindings
+        if (UEnhancedInputComponent *EnhancedInputComponent =
+                CastChecked<UEnhancedInputComponent>(PlayerInputComponent)) {
+                // Jumping
+                EnhancedInputComponent->BindAction(JumpAction,
+                                                   ETriggerEvent::Triggered,
+                                                   this, &ACharacter::Jump);
+                EnhancedInputComponent->BindAction(
+                    JumpAction, ETriggerEvent::Completed, this,
+                    &ACharacter::StopJumping);
 
-		//Moving
-		EnhancedInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this, &AUnknownProjectKCharacter::Move);
+                // Moving
+                EnhancedInputComponent->BindAction(
+                    MoveAction, ETriggerEvent::Triggered, this,
+                    &AUnknownProjectKCharacter::Move);
 
-		//Looking
-		EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &AUnknownProjectKCharacter::Look);
-	}
+                // Looking
+                EnhancedInputComponent->BindAction(
+                    LookAction, ETriggerEvent::Triggered, this,
+                    &AUnknownProjectKCharacter::Look);
+        }
 }
-
+void AUnknownProjectKCharacter::AddItemToInventory(ABaseItem *Item)
+{
+	UE_LOG(LogCharacter, Warning, TEXT("Add item char"))
+	InventoryComponent->AddItem(Item);
+}
 
 void AUnknownProjectKCharacter::Move(const FInputActionValue& Value)
 {
