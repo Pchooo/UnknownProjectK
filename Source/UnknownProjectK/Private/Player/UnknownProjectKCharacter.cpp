@@ -2,14 +2,15 @@
 
 #include "Player/UnknownProjectKCharacter.h"
 #include "Animation/AnimInstance.h"
+#include "BaseItem.h"
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "Components/KInventoryComponent.h"
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "UnknownProjectKProjectile.h"
-#include "BaseItem.h"
 
+#include <complex.h>
 
 DEFINE_LOG_CATEGORY_STATIC(LogCharacter, All, All)
 
@@ -54,6 +55,7 @@ void AUnknownProjectKCharacter::BeginPlay()
 			Subsystem->AddMappingContext(DefaultMappingContext, 0);
 		}
 	}
+	
 
 }
 
@@ -83,6 +85,8 @@ void AUnknownProjectKCharacter::SetupPlayerInputComponent(
                     &AUnknownProjectKCharacter::Look);
         }
 }
+
+
 void AUnknownProjectKCharacter::AddItemToInventory(ABaseItem *Item)
 {
 	UE_LOG(LogCharacter, Warning, TEXT("Add item char"))

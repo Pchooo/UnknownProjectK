@@ -22,6 +22,7 @@ public:
 protected:
     UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category="Component")
     USpotLightComponent* SpotLightComponent;
+    
 private:
     bool IsLightOn = false;
 };

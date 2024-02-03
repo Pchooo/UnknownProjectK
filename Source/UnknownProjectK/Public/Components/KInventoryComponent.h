@@ -16,16 +16,25 @@ class UNKNOWNPROJECTK_API UKInventoryComponent : public UActorComponent
 public:	
 	// Sets default values for this component's properties
 	UKInventoryComponent();
-	void NextItem() const;
-	void PreviousItem() const;
-	void DoAction() const;
+	
+	UFUNCTION(BlueprintCallable)
+	void NextItem();
+	
+	UFUNCTION(BlueprintCallable)
+	void PreviousItem();
+	
+	UFUNCTION(BlueprintCallable)
+	void DoAction();
+	
+	UFUNCTION(BlueprintCallable)
 	void Drop();
+	
 	void AddItem(ABaseItem* Item);
 	
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
-	//TODO: ENDPLAY
+	//TODO: ENDPLAY. Dont forget about RemoveMappingContext
 	
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category="Item", meta=(ClampMin = 1, ClampMax = 10))
 	int32 MaxNumberItems = 6;
@@ -38,7 +47,25 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, Category="Inventory")
 	FName ItemEquipSocketName = "GripPoint";
+
+	
 private:
+	// action
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input, meta=(AllowPrivateAccess = "true"))
+	class UInputMappingContext* InventoryMappingContext;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input, meta=(AllowPrivateAccess = "true"))
+	class UInputAction* UseItemAction;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input, meta=(AllowPrivateAccess = "true"))
+	class UInputAction* NextItemAction;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input, meta=(AllowPrivateAccess = "true"))
+	class UInputAction* PreviousItemAction;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input, meta=(AllowPrivateAccess = "true"))
+	class UInputAction* DropItemAction;
+	
 	UPROPERTY()
 	ABaseItem* CurrentItem = nullptr;
 
@@ -46,6 +73,6 @@ private:
 	
 	//TODO: SPAWN
 	void SpawnItems(); //for default items. Not used for now
-
-	void AttachItemToSocket(ABaseItem* Item, USceneComponent* SceneComponent) const;
+	void AttachItemToSocket(ABaseItem* Item, USkeletalMeshComponent* SkeletalMeshComponent) const;
+	void SetupActionBindings();
 };
