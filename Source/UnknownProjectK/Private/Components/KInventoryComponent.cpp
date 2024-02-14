@@ -67,7 +67,21 @@ void UKInventoryComponent::DoAction()
 
 void UKInventoryComponent::Drop()
 {
+	if(!CurrentItem) return;
 	UE_LOG(InventoryLog, Warning, TEXT("DropItem"));
+	if(Items.Remove(CurrentItem))
+	{
+		UE_LOG(InventoryLog, Warning, TEXT("pop"));
+	}
+	else
+	{
+		UE_LOG(InventoryLog, Warning, TEXT("cock"));
+	}
+	FDetachmentTransformRules DetachmentRules(EDetachmentRule::KeepWorld, true);
+	CurrentItem->DetachFromActor(DetachmentRules);
+	CurrentItem->Drop(); //TODO
+	CurrentItem = nullptr;
+	
 }
 
 
