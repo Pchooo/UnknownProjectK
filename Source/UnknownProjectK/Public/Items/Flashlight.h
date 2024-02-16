@@ -17,7 +17,7 @@ class UNKNOWNPROJECTK_API AFlashlight : public ABaseItem
 public:
     AFlashlight();
     virtual void DoAction() override;
-    virtual void Drop() override;
+    //virtual void Drop() override;
 
 protected:
     UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category="Component")

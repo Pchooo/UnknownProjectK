@@ -21,16 +21,16 @@ void AFlashlight::DoAction()
     SpotLightComponent->SetVisibility(IsLightOn);
     if(IsLightOn)
     {
-       UE_LOG(FlashlightLog, Warning, TEXT("OFF"));
+       UE_LOG(FlashlightLog, Warning, TEXT("ON"));
     }else{
       
-       UE_LOG(FlashlightLog, Warning, TEXT("ON"));
+       UE_LOG(FlashlightLog, Warning, TEXT("OFF"));
     }
     
 }
 
 
-void AFlashlight::Drop() //Flashlight is non droppable
-{
-   return;
-}
+// void AFlashlight::Drop() //Flashlight is non droppable
+// {
+//    return;
+// }

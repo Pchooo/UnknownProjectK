@@ -15,17 +15,42 @@ ABaseItem::ABaseItem() {
 	SetRootComponent(CollisionComponent);
 	ItemMesh = CreateDefaultSubobject<UStaticMeshComponent>("MeshComponent");
 	ItemMesh->SetupAttachment(GetRootComponent());
+	
 }
 
-void ABaseItem::DoAction() {}
-void ABaseItem::Drop() {}
-
-// Called when the game starts or when spawned
 void ABaseItem::BeginPlay()
 {
-        Super::BeginPlay();
-        CollisionComponent->OnComponentBeginOverlap.AddDynamic(this, &ABaseItem::OnSphereBeginOverlap);
+	Super::BeginPlay();
+	CollisionComponent->OnComponentBeginOverlap.AddDynamic(this, &ABaseItem::OnSphereBeginOverlap);
+	CollisionComponent->SetSimulatePhysics(true);
+	CollisionComponent->SetCollisionResponseToChannels(ECR_Block);
+	CollisionComponent->SetCollisionResponseToChannel(ECC_Pawn, ECR_Overlap);
 }
+
+
+void ABaseItem::DoAction() {}
+
+
+void ABaseItem::Drop()//TODO: need ref.
+{
+	UE_LOG(BaseItemLog, Warning, TEXT("Drop"));
+	CollisionComponent->SetSimulatePhysics(true);
+	
+	CollisionComponent->SetCollisionResponseToChannels(ECR_Block);
+	CollisionComponent->SetCollisionResponseToChannel(ECC_Pawn, ECR_Ignore);
+	GetWorld()->GetTimerManager().SetTimer(EnableCollisionTimerHandle, this, &ABaseItem::EnableCollision, CollisionDelay, false);
+}
+
+
+void ABaseItem::EnableCollision() const//TODO: remove it when the button interaction is done
+{
+	UE_LOG(BaseItemLog, Warning, TEXT("Colllision ON"));
+	
+	CollisionComponent->SetCollisionResponseToChannel(ECC_Pawn, ECR_Overlap);
+}
+
+// Called when the game starts or when spawned
+
 
 
 void ABaseItem::OnSphereBeginOverlap(UPrimitiveComponent *OverlappedComponent,
@@ -35,13 +60,24 @@ void ABaseItem::OnSphereBeginOverlap(UPrimitiveComponent *OverlappedComponent,
                                      const FHitResult &SweepResult)
 {
         UE_LOG(BaseItemLog, Warning, TEXT("BaseItemOverlap"));
-	if(!OtherActor) return;
-	const auto Character = Cast<AUnknownProjectKCharacter>(OtherActor);
-	
-	if(!Character) return;
-	UE_LOG(BaseItemLog, Warning, TEXT("Bbb"));
-	Character->AddItemToInventory(this);
-	CollisionComponent->OnComponentBeginOverlap.RemoveAll(this);
-	
+        if (!OtherActor)
+          return;
+        const auto Character = Cast<AUnknownProjectKCharacter>(OtherActor);
+
+        if (!Character)
+          return;
+
+        CollisionComponent->SetSimulatePhysics(false);
+
+        Character->AddItemToInventory(this);
+        CollisionComponent->SetCollisionResponseToChannels(ECR_Ignore);
+}
+
+void ABaseItem::SetVisibility(bool VisibilityMode)
+{
+	if(ItemMesh)
+	{
+		ItemMesh->SetVisibility(VisibilityMode);
+	}
 }
 

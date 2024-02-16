@@ -68,9 +68,9 @@ private:
 	
 	UPROPERTY()
 	ABaseItem* CurrentItem = nullptr;
-
 	int32 CurrentItemIndex = 0;
-	
+
+	// void SetCurrentItem(ABaseItem* NewCurrentItem) const;
 	//TODO: SPAWN
 	void SpawnItems(); //for default items. Not used for now
 	void AttachItemToSocket(ABaseItem* Item, USkeletalMeshComponent* SkeletalMeshComponent) const;

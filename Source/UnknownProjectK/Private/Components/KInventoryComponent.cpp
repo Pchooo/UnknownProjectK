@@ -18,6 +18,15 @@ UKInventoryComponent::UKInventoryComponent() {
   // ...
 }
 
+
+void UKInventoryComponent::BeginPlay() {
+	Super::BeginPlay();
+	SetupActionBindings();
+	
+	// ...
+}
+
+
 void UKInventoryComponent::SetupActionBindings()
 {
 	const auto Character = Cast<ACharacter>(GetOwner());
@@ -42,71 +51,92 @@ void UKInventoryComponent::SetupActionBindings()
 }
 
 
-
-
 void UKInventoryComponent::NextItem()
 {
-	UE_LOG(InventoryLog, Warning, TEXT("NextItem"));
+	if (Items.Num() <= 1) return;
+	
+	CurrentItemIndex = (CurrentItemIndex + 1) % Items.Num();
+	UE_LOG(InventoryLog, Warning, TEXT("NextItem ind %d %d"), CurrentItemIndex, Items.Num() );
+	CurrentItem->SetVisibility(false);
+	CurrentItem = Items[CurrentItemIndex];
+	CurrentItem->SetVisibility(true); 
+	
 }
 
 
 void UKInventoryComponent::PreviousItem()
 {
-	UE_LOG(InventoryLog, Warning, TEXT("Prev item"));
+	if (Items.Num() <= 1) return;
+	
+	CurrentItemIndex = CurrentItemIndex > 0 ? (CurrentItemIndex - 1) % Items.Num() : Items.Num() - 1;
+	UE_LOG(InventoryLog, Warning, TEXT("Prev item ind %d  %d"), CurrentItemIndex,  Items.Num());
+	
+	CurrentItem->SetVisibility(false);
+	CurrentItem = Items[CurrentItemIndex];
+	CurrentItem->SetVisibility(true); 
+	
 }
 
 
-void UKInventoryComponent::DoAction() 
+void UKInventoryComponent::DoAction()
 {
-	if(CurrentItem) {
+	if(CurrentItem)
+	{
 		UE_LOG(InventoryLog, Warning, TEXT("DoAction"));
 		CurrentItem->DoAction();
 	}
 }
 
 
-void UKInventoryComponent::Drop()
+void UKInventoryComponent::Drop()//TODO перенести функцию дропа снизу вверх и с лог значением (чтоб некоторые обекты нельзя было дропать)
 {
 	if(!CurrentItem) return;
 	UE_LOG(InventoryLog, Warning, TEXT("DropItem"));
-	if(Items.Remove(CurrentItem))
-	{
-		UE_LOG(InventoryLog, Warning, TEXT("pop"));
-	}
-	else
-	{
-		UE_LOG(InventoryLog, Warning, TEXT("cock"));
-	}
+	Items.Remove(CurrentItem);
+	
 	FDetachmentTransformRules DetachmentRules(EDetachmentRule::KeepWorld, true);
 	CurrentItem->DetachFromActor(DetachmentRules);
 	CurrentItem->Drop(); //TODO
-	CurrentItem = nullptr;
+	PreviousItem();
 	
 }
 
 
-void UKInventoryComponent::AddItem(ABaseItem *Item)
-{
-	const auto Character = Cast<AUnknownProjectKCharacter>(GetOwner());
-	if(!GetWorld() || !Character ) return;
+void UKInventoryComponent::AddItem(ABaseItem *Item) {
+        const auto Character = Cast<AUnknownProjectKCharacter>(GetOwner());
+	
+        if (!GetWorld() || !Character)
+                return;
+        if (Items.Num() > MaxNumberItems)
+                return;
 
-	
-	
-	//TODO: checking for the existence of the same object in the inventory
-	Item->SetOwner(Character);
-	Items.Add(Item);
-	if(!CurrentItem) CurrentItem = Item; //TODO: temporary. Player should equip
-	
-	AttachItemToSocket(Item, Character->GetMesh1P());
-	return;
+        // TODO: checking for the existence of the same object in the inventory
+        Item->SetOwner(Character);
+        Items.Add(Item);
+
+        if (!CurrentItem)
+        {
+        	CurrentItem = Item; // TODO: temporary. Player should equip;
+        	CurrentItemIndex = 0;
+        }
+	else
+	{
+		Item->SetVisibility(false);
+        }
+       // AttachItemToSocket(Item, Character->GetMesh1P());
+	AttachItemToSocket(Item, Character->GetMesh());
+      
 }
 
-// Called when the game starts
-void UKInventoryComponent::BeginPlay() {
-        Super::BeginPlay();
-	SetupActionBindings();
-        // ...
-}
+// void UKInventoryComponent::SetCurrentItem(ABaseItem* NewCurrentItem) const
+// {
+// 	if(CurrentItem)
+// 	{
+// 		CurrentItem->SetVisibility(false);
+// 	}
+// }
+
+
 void UKInventoryComponent::SpawnItems() {}
 
 

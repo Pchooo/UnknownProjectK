@@ -20,6 +20,8 @@ public:
 	virtual void DoAction();
 	virtual void Drop();
 	//virtual void PickUpItem();
+
+	void SetVisibility(bool VisibilityMode); 
 	
 protected:
 	// Called when the game starts or when spawned
@@ -34,7 +36,12 @@ protected:
 	UFUNCTION()
 	void OnSphereBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult &SweepResult);
 
+	
 
 private:
-	bool IsInInventory = false; 
+	bool IsInInventory = false;
+	FTimerHandle EnableCollisionTimerHandle; //TODO: remove it when the button interaction is done
+	int32 CollisionDelay = 5;
+
+	void EnableCollision() const; 
 };
