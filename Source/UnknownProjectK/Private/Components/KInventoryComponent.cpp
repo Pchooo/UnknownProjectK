@@ -53,28 +53,21 @@ void UKInventoryComponent::SetupActionBindings()
 
 void UKInventoryComponent::NextItem()
 {
-	if (Items.Num() <= 1) return;
+	if (Items.Num() < 1) return;
 	
 	CurrentItemIndex = (CurrentItemIndex + 1) % Items.Num();
 	UE_LOG(InventoryLog, Warning, TEXT("NextItem ind %d %d"), CurrentItemIndex, Items.Num() );
-	CurrentItem->SetVisibility(false);
-	CurrentItem = Items[CurrentItemIndex];
-	CurrentItem->SetVisibility(true); 
-	
+	SetCurrentItem(Items[CurrentItemIndex]);
 }
 
 
 void UKInventoryComponent::PreviousItem()
 {
-	if (Items.Num() <= 1) return;
-	
+	if (Items.Num() < 1) return;
+
 	CurrentItemIndex = CurrentItemIndex > 0 ? (CurrentItemIndex - 1) % Items.Num() : Items.Num() - 1;
 	UE_LOG(InventoryLog, Warning, TEXT("Prev item ind %d  %d"), CurrentItemIndex,  Items.Num());
-	
-	CurrentItem->SetVisibility(false);
-	CurrentItem = Items[CurrentItemIndex];
-	CurrentItem->SetVisibility(true); 
-	
+	SetCurrentItem(Items[CurrentItemIndex]);
 }
 
 
@@ -91,14 +84,17 @@ void UKInventoryComponent::DoAction()
 void UKInventoryComponent::Drop()//TODO перенести функцию дропа снизу вверх и с лог значением (чтоб некоторые обекты нельзя было дропать)
 {
 	if(!CurrentItem) return;
-	UE_LOG(InventoryLog, Warning, TEXT("DropItem"));
+	UE_LOG(InventoryLog, Warning, TEXT("DropItem. Cur item ind %d  %d"), CurrentItemIndex,  Items.Num());
+
 	Items.Remove(CurrentItem);
 	
 	FDetachmentTransformRules DetachmentRules(EDetachmentRule::KeepWorld, true);
 	CurrentItem->DetachFromActor(DetachmentRules);
 	CurrentItem->Drop(); //TODO
-	PreviousItem();
+	CurrentItem = nullptr;
+	CurrentItemIndex--;
 	
+	PreviousItem();
 }
 
 
@@ -123,18 +119,20 @@ void UKInventoryComponent::AddItem(ABaseItem *Item) {
 	{
 		Item->SetVisibility(false);
         }
-       // AttachItemToSocket(Item, Character->GetMesh1P());
-	AttachItemToSocket(Item, Character->GetMesh());
+        AttachItemToSocket(Item, Character->GetMesh1P());
+	//AttachItemToSocket(Item, Character->GetMesh());
       
 }
 
-// void UKInventoryComponent::SetCurrentItem(ABaseItem* NewCurrentItem) const
-// {
-// 	if(CurrentItem)
-// 	{
-// 		CurrentItem->SetVisibility(false);
-// 	}
-// }
+void UKInventoryComponent::SetCurrentItem(ABaseItem* NewCurrentItem)
+{
+	if(CurrentItem)
+	{
+		CurrentItem->SetVisibility(false);
+	}
+	CurrentItem = NewCurrentItem;
+	NewCurrentItem->SetVisibility(true);
+}
 
 
 void UKInventoryComponent::SpawnItems() {}

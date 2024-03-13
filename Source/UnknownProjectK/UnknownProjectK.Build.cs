@@ -13,7 +13,8 @@ public class UnknownProjectK : ModuleRules
 		PublicIncludePaths.AddRange(new[]
 		{
 			"UnknownProjectK/Public/Components",
-			"UnknownProjectK/Public/Items"
+			"UnknownProjectK/Public/Items",
+			"UnknownProjectK/Public/Player"
 		});
 	}
 }

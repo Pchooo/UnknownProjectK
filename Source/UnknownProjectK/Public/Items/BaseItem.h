@@ -20,7 +20,7 @@ public:
 	virtual void DoAction();
 	virtual void Drop();
 	//virtual void PickUpItem();
-
+	
 	void SetVisibility(bool VisibilityMode); 
 	
 protected:

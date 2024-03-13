@@ -91,6 +91,7 @@ void AUnknownProjectKCharacter::AddItemToInventory(ABaseItem *Item)
 {
 	UE_LOG(LogCharacter, Warning, TEXT("Add item char"))
 	InventoryComponent->AddItem(Item);
+	SetHasRifle(true); // tmp
 }
 
 void AUnknownProjectKCharacter::Move(const FInputActionValue& Value)
